@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import { motion, AnimatePresence } from "framer-motion"
-
 import Tab from './Tab';
 import TicketCard from './TicketCard';
 import Perks from './Perks';
@@ -44,7 +42,6 @@ function App() {
                   <div>
                     <ul>
                     {d.tickets.map((ticket, i) => {
-                        // Comp
                         return(
                           <TicketCard key={i} ticket={ticket} />
                         )

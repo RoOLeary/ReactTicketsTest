@@ -1,9 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { motion } from "framer-motion"
+
+
+const variants = {
+    open: { opacity: 1 },
+    closed: { opacity: 0 },
+}
+
+
 
 const Perks = props => {
+    // const [isOpen, setIsOpen] = useState(false)
+
+    // useEffect(() => {
+    //     setIsOpen(!isOpen)
+    // }, [])
+
     let perks = props.data.ticket_perks;
     return (
         <>
+        
             <table>
                 <tbody>
                     {perks.map((p, i) => {
