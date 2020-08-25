@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+// import { motion, AnimatePresence } from "framer-motion"
+
 import Tab from './Tab';
 import TicketCard from './TicketCard';
 import Perks from './Perks';
@@ -27,7 +29,13 @@ function App() {
   
   return (
       <>
-        <Container>
+      
+        <Container
+          //  initial={{ opacity: 0, y: 24 }}
+          //  animate={{ opacity: 1 }}
+          //  exit={{ opacity: 0 }}
+          //  transition={{ opacity: { duration: 0.25 } }}
+           >
           {loading && <h1>LOADING TICKETS</h1>}
           {!loading && 
             data.map((d, idx) => {
@@ -48,6 +56,7 @@ function App() {
               )
           })}
         </Container>
+
       </>
     )
 }
