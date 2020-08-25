@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
- 
+import Tab from './Tab';
+
+
 function App() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -15,33 +17,34 @@ function App() {
         setLoading(false)
     };
     fetchData();
-}, [setData, setLoading]);
+  }, [setData, setLoading]);
   
   return (
       <>
-          {loading && <h1>LOADING TICKETS</h1>}
-
-          {!loading && 
+            {loading && <h1>LOADING TICKETS</h1>}
+            {!loading && 
             data.map((d, i) => {
               return(
-                <div key={i}>
-                  <h2>{d.title}</h2>
-                  {d.tickets.map((ticket, i) => {
-                      return(
-                        <div key={i}>
-                          <h3>{ticket.ticketName}</h3>
-                          <p>{ticket.ticketDescription}</p>
-                          <p>{ticket.ticketActualPrice}</p>
-                        </div>
-                      )
-                  })}
-
-                </div>
-
+                <Tab name={d.title}>
+                  <div key={i}>
+                    <ul>
+                    {d.tickets.map((ticket, i) => {
+                        // Comp
+                        return(
+                          <li key={i}>
+                            <h3>{ticket.ticketName}</h3>
+                            <p>{ticket.ticketDescription}</p>
+                            <p>{ticket.ticketActualPrice}</p>
+                          </li>
+                        )
+                    })}
+                    </ul>
+                  </div>
+                </Tab>
               )
           })}
       </>
-  )
+    )
 }
 
 export default App;
