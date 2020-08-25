@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Tab from './Tab';
+import TicketCard from './TicketCard';
+import Perks from './Perks';
 
 
 function App() {
@@ -21,25 +23,22 @@ function App() {
   
   return (
       <>
-            {loading && <h1>LOADING TICKETS</h1>}
-            {!loading && 
-            data.map((d, i) => {
+          {loading && <h1>LOADING TICKETS</h1>}
+          {!loading && 
+            data.map((d, idx) => {
               return(
-                <Tab name={d.title}>
-                  <div key={i}>
+                <Tab key={idx} name={d.title}>
+                  <div>
                     <ul>
                     {d.tickets.map((ticket, i) => {
                         // Comp
                         return(
-                          <li key={i}>
-                            <h3>{ticket.ticketName}</h3>
-                            <p>{ticket.ticketDescription}</p>
-                            <p>{ticket.ticketActualPrice}</p>
-                          </li>
+                          <TicketCard key={i} ticket={ticket} />
                         )
                     })}
                     </ul>
                   </div>
+                  <Perks data={d} />
                 </Tab>
               )
           })}
