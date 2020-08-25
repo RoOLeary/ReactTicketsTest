@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react';
 import Tab from './Tab';
 import TicketCard from './TicketCard';
 import Perks from './Perks';
+import styled from 'styled-components';
 
+const Container = styled.section`
+  padding: 4em;
+`;
 
 function App() {
   const [data, setData] = useState([]);
@@ -23,6 +27,7 @@ function App() {
   
   return (
       <>
+        <Container>
           {loading && <h1>LOADING TICKETS</h1>}
           {!loading && 
             data.map((d, idx) => {
@@ -42,6 +47,7 @@ function App() {
                 </Tab>
               )
           })}
+        </Container>
       </>
     )
 }
