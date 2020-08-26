@@ -14,19 +14,25 @@ const Container = styled.section`
   padding: 4em;
 `;
 
+
+let initialState = {
+  name: 'Freddie Krueger',
+  theme: "light"
+}
+
+
 function App() {
 
-  const theme = useContext(ThemeContext);
+  //const theme = useContext(ThemeContext);
+  
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  const [value, setValue] = useState('Schmlort'); 
-  const [ lightThene, setTheme ] = useContext(ThemeContext); 
-
-
+  const [value, setValue] = useState(initialState.name); 
+  const themeHook = useState(initialState.theme);
   const providerValue = [ value, setValue ];
   
   useEffect(() => {
+    
     const fetchData = async () => {
         setLoading(true)
         const response = await fetch(
@@ -39,37 +45,42 @@ function App() {
     fetchData();
   }, [setData, setLoading]);
   
+  
+  
   return (
       <>
-       <UserContext.Provider value={providerValue}>
-        <Header />
-        <Main />
-        <Container
-          //  initial={{ opacity: 0, y: 24 }}
-          //  animate={{ opacity: 1 }}
-          //  exit={{ opacity: 0 }}
-          //  transition={{ opacity: { duration: 0.25 } }}
-           >
-          {loading && <h1>LOADING TICKETS</h1>}
-          {!loading && 
-            data.map((d, idx) => {
-              return(
-                <Tab key={idx} name={d.title}>
-                  <div>
-                    <ul>
-                    {d.tickets.map((ticket, i) => {
-                        return(
-                          <TicketCard key={i} ticket={ticket} />
-                        )
-                    })}
-                    </ul>
-                  </div>
-                  <Perks data={d} />
-                </Tab>
-              )
-          })}
-        </Container>
-      </UserContext.Provider>
+       <ThemeContext.Provider value={themeHook}>
+         <UserContext.Provider value={providerValue}>
+            <Header />
+            <Main />
+          </UserContext.Provider>
+          <Container
+            //  initial={{ opacity: 0, y: 24 }}
+            //  animate={{ opacity: 1 }}
+            //  exit={{ opacity: 0 }}
+            //  transition={{ opacity: { duration: 0.25 } }}
+            >
+            {loading && <h1>LOADING TICKETS</h1>}
+            {!loading && 
+              data.map((d, idx) => {
+                return(
+                  <Tab key={idx} name={d.title}>
+                    <div>
+                      <ul>
+                      {d.tickets.map((ticket, i) => {
+                          return(
+                            <TicketCard key={i} ticket={ticket} />
+                          )
+                      })}
+                      </ul>
+                    </div>
+                    <Perks data={d} />
+                  </Tab>
+                )
+            })}
+          </Container>
+       
+      </ThemeContext.Provider>
       </>
     )
 }
