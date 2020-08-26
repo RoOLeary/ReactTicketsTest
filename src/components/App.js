@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 import Header from './Header';
 import Main from './Main';
 
@@ -8,14 +8,23 @@ import Perks from './Perks';
 import styled from 'styled-components';
 
 import ThemeContext from '../contexts/ThemeContext';
+import UserContext from '../contexts/UserContext';
 
 const Container = styled.section`
   padding: 4em;
 `;
 
 function App() {
+
+  const theme = useContext(ThemeContext);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const [value, setValue] = useState('Schmlort'); 
+  const [ lightThene, setTheme ] = useContext(ThemeContext); 
+
+
+  const providerValue = [ value, setValue ];
   
   useEffect(() => {
     const fetchData = async () => {
@@ -30,12 +39,9 @@ function App() {
     fetchData();
   }, [setData, setLoading]);
   
-
-  const themeMode = 'dark' ? 'dark' : 'light';
-
   return (
       <>
-      <ThemeContext.Provider value = {themeMode}>
+       <UserContext.Provider value={providerValue}>
         <Header />
         <Main />
         <Container
@@ -63,7 +69,7 @@ function App() {
               )
           })}
         </Container>
-      </ThemeContext.Provider>
+      </UserContext.Provider>
       </>
     )
 }

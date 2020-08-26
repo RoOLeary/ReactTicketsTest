@@ -1,5 +1,5 @@
-import React from "react";
-
+import React, {useContext} from "react";
+import UserContext from "../contexts/UserContext";
 
 const headerStyles = {
     padding: "1rem",
@@ -8,10 +8,18 @@ const headerStyles = {
     alignItems: "center"
 }
 const Header = () => {
+    const [ value, setValue ] = useContext(UserContext);
+    const msg = useContext(UserContext); 
+
+
+    const handleClick = () => {
+        setValue('Blort');
+    }
+
     return(
         <header style = {headerStyles}>
-            <h1>Context API</h1>
-            
+            <h1>{msg}</h1>
+            <button onClick={handleClick}>Fuck you</button>
         </header>
     );
 }
