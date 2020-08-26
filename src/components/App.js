@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import Header from './Header';
+import Main from './Main';
+
 import Tab from './Tab';
 import TicketCard from './TicketCard';
 import Perks from './Perks';
 import styled from 'styled-components';
+
+import ThemeContext from '../contexts/ThemeContext';
 
 const Container = styled.section`
   padding: 4em;
@@ -25,9 +30,14 @@ function App() {
     fetchData();
   }, [setData, setLoading]);
   
+
+  const themeMode = 'dark' ? 'dark' : 'light';
+
   return (
       <>
-      
+      <ThemeContext.Provider value = {themeMode}>
+        <Header />
+        <Main />
         <Container
           //  initial={{ opacity: 0, y: 24 }}
           //  animate={{ opacity: 1 }}
@@ -53,7 +63,7 @@ function App() {
               )
           })}
         </Container>
-
+      </ThemeContext.Provider>
       </>
     )
 }
