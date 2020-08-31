@@ -20,25 +20,21 @@ let initialState = {
 }
 function App() {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(initialState.loading);
   const [value, setValue] = useState(initialState.name); 
   const providerValue = [ value, setValue ];
   
   const fetchData = useCallback(() => {
     (async () => {
       try {
-        setLoading(true);
         const response = await fetch('https://next.local.tnw.dev/next-api/tickets.json');
         const payload = await response.json();
         setData(payload.data);
       } catch (e) {
         console.warn(e);
         // what errors?
-      } finally {
-        setLoading(false);
-      }
+      } 
     })();
-  }, [setData, setLoading]);
+  }, [setData]);
 
   useEffect(() => fetchData(), [fetchData]);
 
@@ -47,29 +43,10 @@ function App() {
        <TicketContextProvider data={data}>
          <UserContext.Provider value={providerValue}>
             <Header />
+            
             <Main />
+            
           </UserContext.Provider>
-          <Container >
-            {loading && <h1>LOADING TICKETS</h1>}
-            {!loading && 
-              data.map((d, idx) => {
-                return(
-                  <Tab key={idx} name={d.title}>
-                    <div>
-                      <ul>
-                      {d.tickets.map((ticket, i) => {
-                          return(
-                            <TicketCard key={i} ticket={ticket} />
-                          )
-                      })}
-                      </ul>
-                    </div>
-                    <Perks data={d} />
-                  </Tab>
-                )
-            })}
-          </Container>
-       
       </TicketContextProvider>
       </>
     )
