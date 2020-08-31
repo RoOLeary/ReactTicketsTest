@@ -1,10 +1,14 @@
-import React, { useContext, useState } from "react";
-import ThemeContext from "../contexts/ThemeContext";
-import UserContext from "../contexts/UserContext";
+import React, { useContext } from "react";
+import { TicketContext } from "../contexts/TicketContext";
+import { UserContext } from "../contexts/UserContext";
 import AppTheme from "../Colors";
 
 const Main = () => {
-    const theme = useContext(ThemeContext)[0];
+    let ctx = useContext(TicketContext);
+    console.log(ctx); 
+    
+    let theme = ctx[1].theme;
+
     const currentTheme = AppTheme[theme];
     const [user, setUser] = useContext(UserContext);
    

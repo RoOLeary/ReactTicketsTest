@@ -7,7 +7,7 @@ import TicketCard from './TicketCard';
 import Perks from './Perks';
 import styled from 'styled-components';
 
-import ThemeContext from '../contexts/ThemeContext';
+import TicketContextProvider from '../contexts/TicketContext';
 import UserContext from '../contexts/UserContext';
 
 const Container = styled.section`
@@ -23,12 +23,9 @@ let initialState = {
 
 function App() {
 
-  //const theme = useContext(ThemeContext);
-  
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState(initialState.name); 
-  const themeHook = useState(initialState.theme);
   const providerValue = [ value, setValue ];
   
   useEffect(() => {
@@ -49,7 +46,7 @@ function App() {
   
   return (
       <>
-       <ThemeContext.Provider value={themeHook}>
+       <TicketContextProvider data={data}>
          <UserContext.Provider value={providerValue}>
             <Header />
             <Main />
@@ -80,7 +77,7 @@ function App() {
             })}
           </Container>
        
-      </ThemeContext.Provider>
+      </TicketContextProvider>
       </>
     )
 }

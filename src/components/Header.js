@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
-import ThemeContext from '../contexts/ThemeContext';
-import UserContext from '../contexts/UserContext';
+import { TicketContext } from '../contexts/TicketContext';
+import { UserContext } from '../contexts/UserContext';
+import TicketCard from "./TicketCard";
 
 const headerStyles = {
     padding: "1rem",
@@ -10,9 +11,10 @@ const headerStyles = {
     alignItems: "center"
 }
 const Header = () => {
-    const [themeMode, setThemeMode] = useContext(ThemeContext);
+    const context = useContext(TicketContext);
     const [user, setUser] = useContext(UserContext);
-    
+    let theme = context[1].theme;
+
     const pingBellend = () => {
         
         let usr = 'Cockington McGruder'
@@ -20,7 +22,7 @@ const Header = () => {
     }
 
     const fuckHead = () => {
-        setThemeMode(themeMode === "light"? "dark": "light");
+        context[1].setTheme(theme === "light" ? "dark" : "light" );
     }
 
     return(
