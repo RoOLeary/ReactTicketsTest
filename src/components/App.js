@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useContext, useMemo } from 'react';
+import React, { useState, useEffect, useCallback} from 'react';
 import Header from './Header';
 import Main from './Main';
-
 import Tab from './Tab';
 import TicketCard from './TicketCard';
 import Perks from './Perks';
@@ -14,36 +13,35 @@ const Container = styled.section`
   padding: 4em;
 `;
 
-
 let initialState = {
-  name: 'Freddie Krueger',
-  theme: "light"
+  name: 'Blerp Farfington',
+  theme: "light",
+  loading: false
 }
-
-
 function App() {
-
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(initialState.loading);
   const [value, setValue] = useState(initialState.name); 
   const providerValue = [ value, setValue ];
   
-  useEffect(() => {
-    
-    const fetchData = async () => {
-        setLoading(true)
-        const response = await fetch(
-            `https://next.local.tnw.dev/next-api/tickets.json`
-        );
-        const data = await response.json();
-        setData(data.data);
-        setLoading(false)
-    };
-    fetchData();
+  const fetchData = useCallback(() => {
+    (async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('https://next.local.tnw.dev/next-api/tickets.json');
+        const payload = await response.json();
+        setData(payload.data);
+      } catch (e) {
+        console.warn(e);
+        // what errors?
+      } finally {
+        setLoading(false);
+      }
+    })();
   }, [setData, setLoading]);
-  
-  
-  
+
+  useEffect(() => fetchData(), [fetchData]);
+
   return (
       <>
        <TicketContextProvider data={data}>
@@ -51,12 +49,7 @@ function App() {
             <Header />
             <Main />
           </UserContext.Provider>
-          <Container
-            //  initial={{ opacity: 0, y: 24 }}
-            //  animate={{ opacity: 1 }}
-            //  exit={{ opacity: 0 }}
-            //  transition={{ opacity: { duration: 0.25 } }}
-            >
+          <Container >
             {loading && <h1>LOADING TICKETS</h1>}
             {!loading && 
               data.map((d, idx) => {
